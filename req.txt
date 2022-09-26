@@ -9,9 +9,8 @@ greenlet==1.1.3
 itsdangerous==2.1.2
 Jinja2==3.1.2
 Mako==1.2.3
-mariadb==1.1.4
 MarkupSafe==2.1.1
-mysql-connector-python==8.0.30
+mysql-connector-python==8.0.29
 protobuf==3.20.1
 pycodestyle==2.9.1
 python-dotenv==0.21.0
