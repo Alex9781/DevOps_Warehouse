@@ -1,27 +1,26 @@
 version: "3"
 services:
-  database:
-    container_name: database
-    hostname: database
-    image: mysql
-    volumes:
-      - ./db:/var/lib/mysql
-    environment:
-      - MYSQL_DATABASE=${DATABASE}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
-    ports:
+  warehouse_database: #Имя сервиса
+    container_name: database #Имя с которым запустится контейнер
+    hostname: database #Имя "хоста" которым будет считать себя контейнер
+    image: mysql #Образ из которого запускается контейнер
+    volumes: #Подключаемые директории
+      - /home/test_user/db:/var/lib/mysql #Директории вида хост_директория:директория_контейнера
+      - /home/test_user/init_db.sql:/docker-entrypoint-initdb.d/dump.sql
+    environment: #переменные окружения
+      - MYSQL_DATABASE=warehouse
+      - MYSQL_ROOT_PASSWORD=zxczxczxc
+    ports: # Сопоставление портов хост-машины и контейнера
       - 3306:3306
-    restart: unless-stopped
+    restart: unless-stopped #условие для рестарта в случае остановки контейнера
   flask:
-    container_name: flask
-    hostname: flask
+    container_name: warehouse1.0
+    hostname: warehouse
     build:
       context: .
       dockerfile: dockerfile
     ports:
       - "9000:9000"
     depends_on:
-      - database
+      - warehouse_database
     restart: always
