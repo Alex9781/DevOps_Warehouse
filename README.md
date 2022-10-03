@@ -12,17 +12,6 @@
 Python 3 + Flask
 
 ## Сборка
-Создать файл app/.env:
 ```
-FLASK_APP=app.py
-FLASK_DEBUG=true
-
-DB_USER=user
-DB_PASSWORD=password
-DATABASE=database_name
-DB_ROOT_PASSWORD=password
-```
-Запустить docker-compose файл
-```
-docker-compose --env-file ./app/.env up
+flask run
 ```
