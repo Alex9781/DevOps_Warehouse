@@ -3,4 +3,4 @@ ve
 __pycache__
 migrations
 
-config.py
+.env
