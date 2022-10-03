@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex  h-100 bg-light">
+    <form class="container-fluid m-auto bg-white p-5 border round" method="POST" style="max-width: 30rem;">
+        <div class="form-floating mb-3">
+            <input autocomplete="off" type="text" class="form-control" name="login" id="login" placeholder="login"
+                value="{{ request.form.login }}" required>
+            <label for="login">Логин</label>
+        </div>
+    
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            <label for="password">Пароль</label>
+        </div>
+    
+        <div class="row mb-3 justify-content-between">
+            <div class="col-auto">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="remember_me" name="remember_me">
+                    <label class="form-check-label" for="remember_me">
+                        Запомнить меня
+                    </label>
+                </div>
+            </div>
+        </div>
+    
+        <button type="submit" class="btn btn-dark w-100">Войти</button>
+    </form>
+</div>
+{% endblock %}
