@@ -1,5 +1,4 @@
 import os
-
 user = os.getenv("MYSQL_USER")
 password = os.getenv("MYSQL_PASSWORD")
 database = os.getenv("MYSQL_DATABASE")
