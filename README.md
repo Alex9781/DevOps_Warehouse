@@ -16,7 +16,6 @@ Python 3 + Flask
 ```
 FLASK_APP=app.py
 FLASK_DEBUG=true
-
 DB_USER=user
 DB_PASSWORD=password
 DATABASE=database_name
