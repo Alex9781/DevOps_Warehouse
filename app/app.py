@@ -36,8 +36,8 @@ def index():
 @app.route("/edit/<int:order_id>", methods=['GET', 'POST'])
 def edit(order_id):
     order = Order.query.get(order_id)
-    order.material_count = randint(1, 100)
-    order.balance_account = randint(1, 100)
+    #order.material_count = randint(1, 100)
+    #order.balance_account = randint(1, 100)
 
 
     db.session.add(order)
@@ -57,8 +57,8 @@ def delete(order_id):
 @app.route("/create", methods=['GET', 'POST'])
 def create():
     order = Order()
-    order.material_count = randint(1, 100)
-    order.balance_account = randint(1, 100)
+    #order.material_count = randint(1, 100)
+    #order.balance_account = randint(1, 100)
     order.shipper_id = 1
     order.document_id = 1
     order.material_type_id = 1
