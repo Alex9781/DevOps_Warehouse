@@ -1,0 +1,52 @@
+{% extends 'shippers/base.html' %}
+{% block tab_tab_content %}
+
+<h3 class="text-center m-0">Добавить поставщика</h3>
+
+<form action="{{ url_for('shippers.edit', shipper_id=shipper.id) }}" method="post" class="form_control"
+    enctype="multipart/form-data">
+    <div class="rom mb-3">
+        <label for="shipper_name" class="col-sm-2 col-form-label">Название</label>
+        <div class="">
+            <input type="text" class="form-control" name="shipper_name" id="shipper_name" value="{{ shipper.name }}"
+                autocomplete="off">
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="shipper_address" class="col-sm-2 col-form-label">Адрес</label>
+        <div class="">
+            <input type="text" class="form-control" name="shipper_address" id="shipper_address"
+                value="{{ shipper.address }}" autocomplete="off">
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="shipper_tax_number" class="col-sm-2 col-form-label">ИНН</label>
+        <div class="">
+            <input type="number" class="form-control" name="shipper_tax_number" id="shipper_tax_number"
+                value="{{ shipper.tax_number }}" autocomplete="off">
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="shipper_bill_number" class="col-sm-2 col-form-label">Номер счёта</label>
+        <div class="">
+            <input type="number" class="form-control" name="shipper_bill_number" id="shipper_bill_number"
+                value="{{ shipper.bill_number }}" autocomplete="off">
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="shipper_bank_id" class="col-sm-2 col-form-label">Банк</label>
+        <div class="">
+            <select class="form-select" name="shipper_bank_id" id="shipper_bank_id">
+                {% for bank in banks %}
+                <option value="{{ bank.id }}" {% if bank == shipper.bank %} selected {% endif %}>{{ bank.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="mb-3 text-center">
+        <input type="submit" class="btn btn-primary" value="Изменить">
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+{% block tab_content %}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'materials_types.index' %} active {% endif %}" aria-current="page"
+            href="{{ url_for('materials_types.index') }}">Материалы</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'materials_types.groups' %} active {% endif %}"
+            href="{{ url_for('materials_types.groups') }}">Группы материалов</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'materials_types.classes' %} active {% endif %}"
+            href="{{ url_for('materials_types.classes') }}">Классы материалов</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'materials_types.measure_units' %} active {% endif %}"
+            href="{{ url_for('materials_types.measure_units') }}">Меры материалов</a>
+    </li>
+</ul>
+
+<div class="mt-3">
+    {% block tab_tab_content %}
+    {% endblock %}
+</div>
+
+{% endblock %}

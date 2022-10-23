@@ -6,3 +6,4 @@ db
 
 .env
 *.yml
+*.yaml

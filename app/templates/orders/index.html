@@ -1,0 +1,69 @@
+{% extends 'orders/base.html' %}
+{% block tab_tab_content %}
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="{{ url_for('orders.create') }}">Добавить</a>
+</div>
+
+<div class="mb-5">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Дата</th>
+                <th>Количество материала</th>
+                <th>Балансный счёт</th>
+                <th>Поставщик</th>
+                <th>Документ</th>
+                <th>Тип материала</th>
+                <th class="col-2"></th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for order in orders %}
+            <tr>
+            <tr>
+                <th>{{ order.id }}</th>
+                <td>{{ order.supply_date.strftime("%d.%m.%Y") }}</td>
+                <td>{{ order.material_count }}</td>
+                <td>{{ order.balance_account }}</td>
+                <td>{{ order.shipper.name }}</td>
+                <td>{{ order.document.name }}</td>
+                <td>{{ order.material_type.name }}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-secondary" href="{{ url_for('orders.edit', order_id=order.id) }}">Редактировать</a>
+                        <button type="button" class="btn btn-danger"
+                            data-url="{{ url_for('orders.delete', order_id=order.id) }}" data-bs-toggle="modal"
+                            data-bs-target="#delete-modal">Удалить</button>
+                    </div>
+                </td>
+            </tr>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Удаление документа</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы точно хотите удалить документ?
+                <form action="" method="POST">
+                    <input id="delete-btn" type="submit" class="d-none">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                <label for="delete-btn" class="btn btn-danger">Да</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

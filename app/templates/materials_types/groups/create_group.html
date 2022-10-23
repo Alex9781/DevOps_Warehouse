@@ -1,0 +1,19 @@
+{% extends 'materials_types/base.html' %}
+{% block tab_tab_content %}
+
+<h3 class="text-center m-0">Добавить группу материала</h3>
+
+<form action="{{ url_for('materials_types.create_group') }}" method="post" class="form_control" enctype="multipart/form-data">
+    <div class="rom mb-3">
+        <label for="group_name" class="col-sm-2 col-form-label">Название</label>
+        <div class="">
+            <input type="text" class="form-control" name="group_name" id="group_name"
+                autocomplete="off">
+        </div>
+    </div>
+    <div class="mb-3 text-center">
+        <input type="submit" class="btn btn-primary" value="Добавить">
+    </div>
+</form>
+
+{% endblock %}

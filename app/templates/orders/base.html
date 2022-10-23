@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+{% block tab_content %}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'orders.index' %} active {% endif %}" aria-current="page"
+            href="{{ url_for('orders.index') }}">Заказы</a>
+    </li>
+</ul>
+
+<div class="mt-3">
+    {% block tab_tab_content %}
+    {% endblock %}
+</div>
+
+{% endblock %}

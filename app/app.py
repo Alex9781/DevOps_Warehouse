@@ -1,5 +1,5 @@
-from random import randint
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, url_for, redirect
+from flask_login import login_required
 from sqlalchemy import MetaData
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -22,48 +22,23 @@ metadata = MetaData(naming_convention=convention)
 db = SQLAlchemy(app, metadata=metadata)
 migrate = Migrate(app, db)
 
-from models import *
-from auth import bp as auth_bp, init_login_manager
+
+from app.auth import bp as auth_bp, init_login_manager
+from app.orders import bp as orders_bp
+from app.shippers import bp as shippers_bp
+from app.documents import bp as documents_bp
+from app.materials_types import bp as materials_types_bp
+
 
 app.register_blueprint(auth_bp)
+app.register_blueprint(orders_bp)
+app.register_blueprint(shippers_bp)
+app.register_blueprint(documents_bp)
+app.register_blueprint(materials_types_bp)
 init_login_manager(app)
 
+
 @app.route("/")
+@login_required
 def index():
-    orders = Order.query
-    return render_template("index.html", orders=orders)
-
-@app.route("/edit/<int:order_id>", methods=['GET', 'POST'])
-def edit(order_id):
-    order = Order.query.get(order_id)
-    #order.material_count = randint(1, 100)
-    #order.balance_account = randint(1, 100)
-
-
-    db.session.add(order)
-    db.session.commit()
-
-    return redirect(url_for("index"))
-
-@app.route("/delete/<int:order_id>", methods=['POST'])
-def delete(order_id):
-    order = Order.query.get(order_id)
-
-    db.session.delete(order)
-    db.session.commit()
-
-    return redirect(url_for("index"))
-
-@app.route("/create", methods=['GET', 'POST'])
-def create():
-    order = Order()
-    #order.material_count = randint(1, 100)
-    #order.balance_account = randint(1, 100)
-    order.shipper_id = 1
-    order.document_id = 1
-    order.material_type_id = 1
-
-    db.session.add(order)
-    db.session.commit()
-
-    return redirect(url_for("index"))
+    return redirect(url_for("orders.index"))

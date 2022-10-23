@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+{% block tab_content %}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'shippers.index' %} active {% endif %}" aria-current="page"
+            href="{{ url_for('shippers.index') }}">Поставщики</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'shippers.banks' %} active {% endif %}"
+            href="{{ url_for('shippers.banks') }}">Банки</a>
+    </li>
+</ul>
+
+<div class="mt-3">
+    {% block tab_tab_content %}
+    {% endblock %}
+</div>
+
+{% endblock %}

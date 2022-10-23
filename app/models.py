@@ -2,7 +2,7 @@ from sqlalchemy import sql
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash
 
-from app import db
+from app.app import db
 
 
 class DBUser(db.Model, UserMixin):
@@ -102,3 +102,4 @@ class MaterialMeasureUnit(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
+    
