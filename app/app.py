@@ -28,6 +28,7 @@ from app.orders import bp as orders_bp
 from app.shippers import bp as shippers_bp
 from app.documents import bp as documents_bp
 from app.materials_types import bp as materials_types_bp
+from app.calculations import bp as calculations_bp
 
 
 app.register_blueprint(auth_bp)
@@ -35,6 +36,7 @@ app.register_blueprint(orders_bp)
 app.register_blueprint(shippers_bp)
 app.register_blueprint(documents_bp)
 app.register_blueprint(materials_types_bp)
+app.register_blueprint(calculations_bp)
 init_login_manager(app)
 
 
