@@ -42,7 +42,7 @@ services:
   flask:
     container_name: flask
     hostname: flask
-    image: url
+    image: <url>
     env_file:
       - ./app/.env
     ports:
