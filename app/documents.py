@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required
+from sqlalchemy import exc
 
 from app.app import db
 from app.models import Document, DocumentType
@@ -49,10 +50,13 @@ def edit(document_id):
 @bp.route("/delete/<int:document_id>", methods=["POST"])
 @login_required
 def delete(document_id):
-    document = Document.query.get(document_id)
+    try:
+        document = Document.query.get(document_id)
 
-    db.session.delete(document)
-    db.session.commit()
+        db.session.delete(document)
+        db.session.commit()
+    except exc.SQLAlchemyError:
+        flash("Невозможно удалить документ, если от него зависят заказы. Сначала удалите все заказы, зависящие от этого документа.", "danger")
 
     return redirect(url_for("documents.index"))
 
@@ -100,7 +104,8 @@ def delete_type(type_id):
 
         db.session.delete(type)
         db.session.commit()
-    except:
+
+    except exc.SQLAlchemyError:
         flash("Невозможно удалить тип документа, если от него зависят документы. Сначала удалите все документы, зависящий от этого типа.", "danger")
 
     return redirect(url_for("documents.types"))

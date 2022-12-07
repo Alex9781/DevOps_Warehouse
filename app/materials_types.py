@@ -1,5 +1,6 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required
+from sqlalchemy import exc
 
 from app.app import db
 from app.models import MaterialType, MaterialGroup, MaterialClass, MaterialMeasureUnit
@@ -59,10 +60,13 @@ def edit(type_id):
 @bp.route("/delete/<int:type_id>", methods=['POST'])
 @login_required
 def delete(type_id):
-    type = MaterialType.query.get(type_id)
+    try:
+        type = MaterialType.query.get(type_id)
 
-    db.session.delete(type)
-    db.session.commit()
+        db.session.delete(type)
+        db.session.commit()
+    except exc.SQLAlchemyError:
+        flash("Невозможно удалить материал, если от него зависят заказы. Сначала удалите все заказы, зависящие от этого материала.", "danger")
 
     return redirect(url_for("materials_types.index"))
 
@@ -105,10 +109,14 @@ def edit_group(group_id):
 @bp.route("/groups/delete/<int:group_id>", methods=['POST'])
 @login_required
 def delete_group(group_id):
-    group = MaterialGroup.query.get(group_id)
+    try:
+        group = MaterialGroup.query.get(group_id)
 
-    db.session.delete(group)
-    db.session.commit()
+        db.session.delete(group)
+        db.session.commit()
+    except exc.SQLAlchemyError:
+        flash("Невозможно удалить группу материалов, если от нее зависят материалы. Сначала удалите все материалы, зависящие от этой группы.", "danger")
+
 
     return redirect(url_for("materials_types.groups"))
 
@@ -151,10 +159,14 @@ def edit_class(class_id):
 @bp.route("/classes/delete/<int:class_id>", methods=['POST'])
 @login_required
 def delete_class(class_id):
-    _class = MaterialGroup.query.get(class_id)
+    try:
+        _class = MaterialGroup.query.get(class_id)
 
-    db.session.delete(_class)
-    db.session.commit()
+        db.session.delete(_class)
+        db.session.commit()
+    except exc.SQLAlchemyError:
+        flash("Невозможно удалить класс материалла, если от него зависят материалы. Сначала удалите все материалы, зависящие от этого класса.", "danger")
+    
 
     return redirect(url_for("materials_types.classes"))
 
@@ -197,9 +209,11 @@ def edit_measure_unit(measure_unit_id):
 @bp.route("/measure_units/delete/<int:measure_unit_id>", methods=['POST'])
 @login_required
 def delete_measure_unit(measure_unit_id):
-    measure_unit = MaterialMeasureUnit.query.get(measure_unit_id)
+    try:
+        measure_unit = MaterialMeasureUnit.query.get(measure_unit_id)
 
-    db.session.delete(measure_unit)
-    db.session.commit()
-
+        db.session.delete(measure_unit)
+        db.session.commit()
+    except exc.SQLAlchemyError:
+        flash("Невозможно удалить меру измерений, если от него зависят материалы. Сначала удалите все материалы, зависящие от этого измерения.", "danger")
     return redirect(url_for("materials_types.measure_units")) 

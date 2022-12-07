@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request, url_for, redirect, flash
 from flask_login import login_required
+from sqlalchemy import exc
 
 from app.app import db
 from app.models import Order, Shipper, Document, MaterialType
@@ -65,9 +66,13 @@ def edit(order_id):
 @bp.route("/delete/<int:order_id>", methods=["POST"])
 @login_required
 def delete(order_id):
-    order = Order.query.get(order_id)
+    try:
+        order = Order.query.get(order_id)
 
-    db.session.delete(order)
-    db.session.commit()
+        db.session.delete(order)
+        db.session.commit()
+  
+    except exc.SQLAlchemyError:
+        flash('Нельзя удалить: есть зависимости', 'danger')
 
     return redirect(url_for("orders.index")) 

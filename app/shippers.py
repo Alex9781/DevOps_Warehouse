@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required
+from sqlalchemy import exc
 
 from app.app import db
 from app.models import Shipper, Bank
@@ -56,10 +57,14 @@ def edit(shipper_id):
 @bp.route("/delete/<int:shipper_id>", methods=["POST"])
 @login_required
 def delete(shipper_id):
-    shipper = Shipper.query.get(shipper_id)
+    try:
+        shipper = Shipper.query.get(shipper_id)
 
-    db.session.delete(shipper)
-    db.session.commit()
+        db.session.delete(shipper)
+        db.session.commit()
+
+    except exc.SQLAlchemyError:
+        flash("Невозможно удалить заказчика, если от него зависят заказы. Сначала удалите все заказы, зависящие от этого заказчика.", "danger")
 
     return redirect(url_for("shippers.index"))
 
@@ -109,8 +114,8 @@ def delete_bank(bank_id):
 
         db.session.delete(bank)
         db.session.commit()
-    except:
-        flash("Невозможно удалить банк, если от него зависят поставщики. Сначала удалите всех поставщиков, зависящий от этого банка.", "danger")
+    except exc.SQLAlchemyError:
+        flash("Невозможно удалить банк, если от него зависят поставщики. Сначала удалите всех поставщиков, зависящих от этого банка.", "danger")
 
     return redirect(url_for("shippers.banks"))
     

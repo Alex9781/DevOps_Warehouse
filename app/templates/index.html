@@ -4,19 +4,19 @@
 
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link {% if request.endpoint == 'orders.index' %} active {% endif %}" aria-current="page"
+        <a class="nav-link {% if 'orders' in request.endpoint %} active {% endif %}" aria-current="page"
             href="{{ url_for('orders.index') }}">Заказы</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {% if request.endpoint == 'shippers.index' %} active {% endif %}"
+        <a class="nav-link {% if 'shippers' in request.endpoint %} active {% endif %}"
             href="{{ url_for('shippers.index') }}">Поставщики</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {% if request.endpoint == 'documents.index' %} active {% endif %}"
+        <a class="nav-link {% if 'documents' in request.endpoint %} active {% endif %}"
             href="{{ url_for('documents.index') }}">Документы</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {% if request.endpoint == 'materials_types.index' %} active {% endif %}"
+        <a class="nav-link {% if 'materials_types' in request.endpoint %} active {% endif %}"
             href="{{ url_for('materials_types.index') }}">Справочник материалов</a>
     </li>
 </ul>
