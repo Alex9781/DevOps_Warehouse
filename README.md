@@ -23,6 +23,7 @@ MYSQL_USER=user
 MYSQL_PASSWORD=user_password
 MYSQL_DATABASE=warehouse
 MYSQL_ROOT_PASSWORD=root_password
+DATABASE_URL=<url>
 ```
 Создать docker-compose.yaml
 ```
