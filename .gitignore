@@ -3,6 +3,7 @@ ve
 __pycache__
 migrations
 db
+.pytest*
 
 .env
 *.yml
