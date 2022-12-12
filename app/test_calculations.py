@@ -15,7 +15,7 @@ def app():
 def client(app):
     return app.test_client()
 
-def test_calcaulation_one_correct_2():  # Проверка,что два уникальных поставщика
+def test_calculation_one_correct_2():  # Проверка,что два уникальных поставщика
     test = [Order(
         id = 1,
         supply_date = '2022-13-12',
@@ -35,7 +35,7 @@ def test_calcaulation_one_correct_2():  # Проверка,что два уни�
     )]
     assert calculation_one(test) == 2
 
-def test_calcaulation_two_correct_1():   # Проверка,что один уникальный поставщик
+def test_calculation_two_correct_1():   # Проверка,что один уникальный поставщик
     test = [Order(
         id = 1,
         supply_date = '2022-13-12',
