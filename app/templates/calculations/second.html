@@ -1,0 +1,53 @@
+{% extends 'calculations/base.html' %}
+{% block tab_tab_content %}
+
+<h3 class="text-center m-0">Вывести список поставщиков с указанием всех реквизитов данного
+    материала на склад;</h3>
+
+<form action="{{ url_for('calculations.second') }}" method="post" class="form_control" enctype="multipart/form-data">
+    <div class="rom mb-3">
+        <label for="shipper_id" class="col-sm-2 col-form-label">Материал</label>
+        <div class="">
+            <select class="form-select" name="material" id="material">
+                {% for material in materials %}
+                <option value="{{ material.id }}">{{ material.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    {% if shippers %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Название</th>
+                <th>Адрес</th>
+                <th>ИНН</th>
+                <th>Номер счёта</th>
+                <th>Банк</th>
+                <th class="col-2"></th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for shipper in shippers %}
+            <tr>
+            <tr>
+                <th>{{ loop.index }}</th>
+                <td>{{ shipper.name }}</td>
+                <td>{{ shipper.address }}</td>
+                <td>{{ shipper.tax_number }}</td>
+                <td>{{ shipper.bill_number }}</td>
+                <td>{{ shipper.bank.name }}</td>
+            </tr>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <div class="mb-3 text-center">
+        <input type="submit" class="btn btn-primary" value="Выполнить">
+    </div>
+</form>
+
+{% endblock %}

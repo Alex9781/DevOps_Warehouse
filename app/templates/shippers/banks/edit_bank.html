@@ -1,0 +1,26 @@
+{% extends 'shippers/base.html' %}
+{% block tab_tab_content %}
+
+<h3 class="text-center m-0">Изменить банк</h3>
+
+<form action="{{ url_for('shippers.edit_bank', bank_id=bank.id) }}" method="post" class="form_control" enctype="multipart/form-data">
+    <div class="rom mb-3">
+        <label for="bank_name" class="col-sm-2 col-form-label">Название</label>
+        <div class="">
+            <input type="text" class="form-control" name="bank_name" id="bank_name" value="{{ bank.name }}"
+                autocomplete="off">
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="bank_address" class="col-sm-2 col-form-label">Адрес</label>
+        <div class="">
+            <input type="text" class="form-control" name="bank_address" id="bank_address" value="{{ bank.address }}"
+                autocomplete="off">
+        </div>
+    </div>
+    <div class="mb-3 text-center">
+        <input type="submit" class="btn btn-primary" value="Изменить">
+    </div>
+</form>
+
+{% endblock %}

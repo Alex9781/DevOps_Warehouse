@@ -1,68 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
+<h1 class="my-3 text-center">АСОС</h1>
 
-<div class="mb-5">
-    <table class="table">
-        <thead>
-            <tr>
-                <td>id</td>
-                <td>supply_date</td>
-                <td>material_count</td>
-                <td>balance_account</td>
-                <td>shipper_id</td>
-                <td>document_id</td>
-                <td>material_type_id</td>
-                <td>кнопочки</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for order in orders %}
-            <tr>
-            <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.supply_date }}</td>
-                <td>{{ order.material_count }}</td>
-                <td>{{ order.balance_account }}</td>
-                <td>{{ order.shipper_id }}</td>
-                <td>{{ order.document_id }}</td>
-                <td>{{ order.material_type_id }}</td>
-                <td>
-                    <div class="btn-group">
-                        <a class="btn btn-secondary" href="{{ url_for('edit', order_id=order.id) }}">Редактировать</a>
-                        <button type="button" class="btn btn-danger"
-                            data-url="{{ url_for('delete', order_id=order.id) }}" data-bs-toggle="modal"
-                            data-bs-target="#delete-order-modal">Удалить</button>
-                    </div>
-                </td>
-            </tr>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link {% if 'orders' in request.endpoint %} active {% endif %}" aria-current="page"
+            href="{{ url_for('orders.index') }}">Заказы</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if 'shippers' in request.endpoint %} active {% endif %}"
+            href="{{ url_for('shippers.index') }}">Поставщики</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if 'documents' in request.endpoint %} active {% endif %}"
+            href="{{ url_for('documents.index') }}">Документы</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if 'materials_types' in request.endpoint %} active {% endif %}"
+            href="{{ url_for('materials_types.index') }}">Справочник материалов</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if 'calculations' in request.endpoint %} active {% endif %}"
+            href="{{ url_for('calculations.index') }}">Вычисления</a>
+    </li>
+</ul>
+
+<div class="mt-3">
+    {% block tab_content %}
+    {% endblock %}
 </div>
 
-<div class="mb-3 text-center">
-    <a class="btn btn-primary" href="{{ url_for('create') }}">Создать</a>
-</div>
-
-<div class="modal fade" id="delete-order-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-center">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Удаление заказа</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Вы точно хотите удалить заказ <span id="order-name"></span>?
-                <form action="" method="POST">
-                    <input id="delete-btn" type="submit" class="d-none">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
-                <label for="delete-btn" class="btn btn-danger">Да</label>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}

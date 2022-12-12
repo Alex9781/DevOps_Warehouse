@@ -1,0 +1,52 @@
+{% extends 'materials_types/base.html' %}
+{% block tab_tab_content %}
+
+<h3 class="text-center m-0">Добавить материал</h3>
+
+<form action="{{ url_for('materials_types.create') }}" method="post" class="form_control" enctype="multipart/form-data">
+    <div class="rom mb-3">
+        <label for="type_name" class="col-sm-2 col-form-label">Название</label>
+        <div class="">
+            <input type="text" class="form-control" name="type_name" id="type_name"
+                autocomplete="off">
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="type_group_id" class="col-sm-2 col-form-label">Группа</label>
+        <div class="">
+            <select class="form-select" name="type_group_id" id="type_group_id">
+                {% for group in groups %}
+                <option value="{{ group.id }}">{{ group.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="type_class_id" class="col-sm-2 col-form-label">Класс</label>
+        <div class="">
+            <select class="form-select" name="type_class_id" id="type_class_id">
+                {% for class in classes %}
+                <option value="{{ class.id }}">{{ class.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="type_measure_unit_id" class="col-sm-2 col-form-label">Мера</label>
+        <div class="">
+            <select class="form-select" name="type_measure_unit_id" id="type_measure_unit_id">
+                {% for measure_unit in measure_units %}
+                <option value="{{ measure_unit.id }}">{{ measure_unit.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="mb-3 text-center">
+        <input type="submit" class="btn btn-primary" value="Добавить">
+    </div>
+</form>
+
+{% endblock %}

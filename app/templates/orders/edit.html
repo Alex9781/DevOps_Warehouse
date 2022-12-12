@@ -1,0 +1,73 @@
+{% extends 'orders/base.html' %}
+{% block tab_tab_content %}
+
+<h3 class="text-center m-0">Изменить заказ</h3>
+
+<form action="{{ url_for('orders.edit', order_id=order.id) }}" method="post" class="form_control" enctype="multipart/form-data">
+    <div class="rom mb-3">
+        <label for="order_id" class="col-sm-2 col-form-label">Номер</label>
+        <div class="">
+            <input type="number" class="form-control" name="order_id" id="order_id" value="{{ order.id }}"
+                autocomplete="off">
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="order_date" class="col-sm-2 col-form-label">Дата</label>
+        <div class="">
+            <input type="date" class="form-control" name="order_date" id="order_date" value="{{ order.supply_date.strftime("%Y-%m-%d") }}"
+                autocomplete="off">
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="material_count" class="col-sm-2 col-form-label">Количество материала</label>
+        <div class="">
+            <input type="number" class="form-control" name="material_count" id="material_count" value="{{ order.material_count }}"
+                autocomplete="off">
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="balance_account" class="col-sm-2 col-form-label">Балансный счёт</label>
+        <div class="">
+            <input type="number" class="form-control" name="balance_account" id="balance_account" value="{{ order.balance_account }}"
+                autocomplete="off">
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="shipper_id" class="col-sm-2 col-form-label">Поставщик</label>
+        <div class="">
+            <select class="form-select" name="shipper_id" id="shipper_id">
+                {% for shipper in shippers %}
+                <option value="{{ shipper.id }}" {% if shipper == order.shipper %} selected {% endif %}>{{ shipper.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="document_id" class="col-sm-2 col-form-label">Документ</label>
+        <div class="">
+            <select class="form-select" name="document_id" id="document_id">
+                {% for document in documents %}
+                <option value="{{ document.id }}" {% if document == order.document %} selected {% endif %}>{{ document.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="rom mb-3">
+        <label for="material_type_id" class="col-sm-2 col-form-label">Тип материала</label>
+        <div class="">
+            <select class="form-select" name="material_type_id" id="material_type_id">
+                {% for material_type in materials_types %}
+                <option value="{{ material_type.id }}" {% if material_type == order.material_type %} selected {% endif %}>{{ material_type.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="mb-3 text-center">
+        <input type="submit" class="btn btn-primary" value="Изменить">
+    </div>
+</form>
+
+{% endblock %}

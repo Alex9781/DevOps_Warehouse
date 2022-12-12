@@ -1,0 +1,30 @@
+{% extends 'calculations/base.html' %}
+{% block tab_tab_content %}
+
+<h3 class="text-center m-0">Посчитать количество поставщиков данного материала</h3>
+
+<form action="{{ url_for('calculations.third') }}" method="post" class="form_control" enctype="multipart/form-data">
+    <div class="rom mb-3">
+        <label for="shipper_id" class="col-sm-2 col-form-label">Банк</label>
+        <div class="">
+            <select class="form-select" name="bank" id="bank">
+                {% for bank in banks %}
+                <option value="{{ bank.id }}">{{ bank.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    {% if result %}
+    <div class="rom mb-3">
+        <div class="">
+            <p>Итого: {{ result or '' }}</p>
+        </div>
+    </div>
+    {% endif %}
+    <div class="mb-3 text-center">
+        <input type="submit" class="btn btn-primary" value="Выполнить">
+    </div>
+</form>
+
+{% endblock %}

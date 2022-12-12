@@ -1,0 +1,59 @@
+{% extends 'materials_types/base.html' %}
+{% block tab_tab_content %}
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="{{ url_for('materials_types.create_measure_unit') }}">Добавить</a>
+</div>
+
+<div class="mb-5">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Название</th>
+                <th class="col-2"></th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for measure_unit in measure_units %}
+            <tr>
+            <tr>
+                <th>{{ loop.index }}</th>
+                <td>{{ measure_unit.name }}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-secondary" href="{{ url_for('materials_types.edit_measure_unit', measure_unit_id=measure_unit.id) }}">Редактировать</a>
+                        <button type="button" class="btn btn-danger"
+                            data-url="{{ url_for('materials_types.delete_measure_unit', measure_unit_id=measure_unit.id) }}" data-bs-toggle="modal"
+                            data-bs-target="#delete-modal">Удалить</button>
+                    </div>
+                </td>
+            </tr>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Удаление меры материала</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы точно хотите удалить меру материала?
+                <form action="" method="POST">
+                    <input id="delete-btn" type="submit" class="d-none">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                <label for="delete-btn" class="btn btn-danger">Да</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

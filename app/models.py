@@ -1,9 +1,21 @@
 from sqlalchemy import sql
-
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash
+from sqlalchemy import MetaData
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
-from app import db
+convention = {
+    "ix": 'ix_%(column_0_label)s',
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s"
+}
+
+metadata = MetaData(naming_convention=convention)
+db = SQLAlchemy()
+migrate = Migrate(db)
 
 
 class DBUser(db.Model, UserMixin):
@@ -103,3 +115,4 @@ class MaterialMeasureUnit(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
+    
