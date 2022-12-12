@@ -1,9 +1,11 @@
 import pytest
-from app.app import app as _app
+from app.app import create_app
 
 @pytest.fixture()
 def app():
-    app = _app
+    from dotenv import load_dotenv
+    load_dotenv()
+    app = create_app("config.py")
     yield app
 
 @pytest.fixture()
