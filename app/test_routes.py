@@ -1,4 +1,5 @@
 import pytest
+import os
 from app.app import create_app
 
 @pytest.fixture()
@@ -6,6 +7,8 @@ def app():
     from dotenv import load_dotenv
     load_dotenv()
     app = create_app("config.py")
+    print(app.config.get("SQLALCHEMY_DATABASE_URI"))
+    print(os.getenv("SECRET_KEY"))
     yield app
 
 @pytest.fixture()
