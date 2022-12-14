@@ -2,8 +2,7 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required
 from sqlalchemy import exc
 
-from app.app import db
-from app.models import Shipper, Bank
+from app.models import db, Shipper, Bank
 
 
 bp = Blueprint('shippers', __name__, url_prefix='/shippers')

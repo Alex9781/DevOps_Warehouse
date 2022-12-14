@@ -2,8 +2,7 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required
 from sqlalchemy import exc
 
-from app.app import db
-from app.models import MaterialType, MaterialGroup, MaterialClass, MaterialMeasureUnit
+from app.models import db, MaterialType, MaterialGroup, MaterialClass, MaterialMeasureUnit
 
 
 bp = Blueprint('materials_types', __name__, url_prefix='/materials_types')

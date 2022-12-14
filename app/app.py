@@ -1,12 +1,14 @@
 from flask import Flask, url_for, redirect
 from flask_login import login_required
-from app.models import db
+from flask_migrate import Migrate
 
 def create_app(config_filename):
     app = Flask(__name__)
     app.config.from_pyfile(config_filename)
 
+    from app.models import db
     db.init_app(app)
+    migrate = Migrate(app, db)
 
     from app.auth import bp as auth_bp, init_login_manager
     from app.orders import bp as orders_bp

@@ -3,7 +3,6 @@ from flask_login import UserMixin
 from werkzeug.security import check_password_hash
 from sqlalchemy import MetaData
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 
 convention = {
     "ix": 'ix_%(column_0_label)s',
@@ -13,9 +12,9 @@ convention = {
     "pk": "pk_%(table_name)s"
 }
 
+
 metadata = MetaData(naming_convention=convention)
-db = SQLAlchemy()
-migrate = Migrate(db)
+db = SQLAlchemy(metadata=metadata)
 
 
 class DBUser(db.Model, UserMixin):
