@@ -1,8 +1,6 @@
 from flask import Blueprint, render_template, request
 from flask_login import login_required
 
-
-from app.app import db
 from app.models import MaterialType, Order, Shipper, Bank
 
 

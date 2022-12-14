@@ -2,8 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required
 from sqlalchemy import exc
 
-from app.app import db
-from app.models import Document, DocumentType
+from app.models import db, Document, DocumentType
 
 bp = Blueprint('documents', __name__, url_prefix='/documents')
 
