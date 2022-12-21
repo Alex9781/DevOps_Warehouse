@@ -1,5 +1,5 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
-from flask_login import login_required
+from flask import Blueprint, flash, redirect, render_template, request, url_for, current_app
+from flask_login import login_required, current_user
 from sqlalchemy import exc
 
 from app.models import db, Shipper, Bank
@@ -29,6 +29,7 @@ def create():
         db.session.add(shipper)
         db.session.commit()
 
+        current_app.logger.info(f"Shipper {shipper.name} created by {current_user.login}")
         return redirect(url_for("shippers.index"))
 
     banks = Bank.query.all()
@@ -49,6 +50,7 @@ def edit(shipper_id):
 
         db.session.commit()
 
+        current_app.logger.info(f"Shipper {shipper.name} edited by {current_user.login}")
         return redirect(url_for("shippers.index"))
 
     return render_template("shippers/edit.html", shipper=shipper, banks=banks)
@@ -62,7 +64,9 @@ def delete(shipper_id):
         db.session.delete(shipper)
         db.session.commit()
 
+        current_app.logger.info(f"Shipper {shipper.name} deleted by {current_user.login}")
     except exc.SQLAlchemyError:
+        current_app.logger.warning(f"Error ocurred while deleting shipper")
         flash("Невозможно удалить заказчика, если от него зависят заказы. Сначала удалите все заказы, зависящие от этого заказчика.", "danger")
 
     return redirect(url_for("shippers.index"))
@@ -86,6 +90,7 @@ def create_bank():
         db.session.add(bank)
         db.session.commit()
 
+        current_app.logger.info(f"Bank {bank.name} created by {current_user.login}")
         return redirect(url_for("shippers.banks"))
 
     return render_template("shippers/banks/create_bank.html")
@@ -101,6 +106,7 @@ def edit_bank(bank_id):
 
         db.session.commit()
 
+        current_app.logger.info(f"Bank {bank.name} edited by {current_user.login}")
         return redirect(url_for("shippers.banks"))
 
     return render_template("shippers/banks/edit_bank.html", bank=bank)
@@ -113,7 +119,10 @@ def delete_bank(bank_id):
 
         db.session.delete(bank)
         db.session.commit()
+
+        current_app.logger.info(f"Bank {bank.name} deleted by {current_user.login}")
     except exc.SQLAlchemyError:
+        current_app.logger.warning(f"Error ocurred while deleting bank")
         flash("Невозможно удалить банк, если от него зависят поставщики. Сначала удалите всех поставщиков, зависящих от этого банка.", "danger")
 
     return redirect(url_for("shippers.banks"))

@@ -1,5 +1,5 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
-from flask_login import login_required
+from flask import Blueprint, flash, redirect, render_template, request, url_for, current_app
+from flask_login import login_required, current_user
 from sqlalchemy import exc
 
 from app.models import db, MaterialType, MaterialGroup, MaterialClass, MaterialMeasureUnit
@@ -32,6 +32,7 @@ def create():
         db.session.add(type)
         db.session.commit()
 
+        current_app.logger.info(f"Material type {type.name} created by {current_user.login}")
         return redirect(url_for("materials_types.index"))
 
     return render_template("materials_types/create.html", groups=groups, classes=classes, measure_units=measure_units) 
@@ -52,6 +53,7 @@ def edit(type_id):
 
         db.session.commit()
 
+        current_app.logger.info(f"Material type {type.name} edited by {current_user.login}")
         return redirect(url_for("materials_types.index"))
 
     return render_template("materials_types/edit.html", type=type, groups=groups, classes=classes, measure_units=measure_units) 
@@ -64,7 +66,10 @@ def delete(type_id):
 
         db.session.delete(type)
         db.session.commit()
+
+        current_app.logger.info(f"Material type {type.name} deleted by {current_user.login}")
     except exc.SQLAlchemyError:
+        current_app.logger.warning(f"Error ocurred while deleting material type")
         flash("Невозможно удалить материал, если от него зависят заказы. Сначала удалите все заказы, зависящие от этого материала.", "danger")
 
     return redirect(url_for("materials_types.index"))
@@ -87,6 +92,7 @@ def create_group():
         db.session.add(group)
         db.session.commit()
 
+        current_app.logger.info(f"Material group {group.name} created by {current_user.login}")
         return redirect(url_for("materials_types.groups"))
 
     return render_template("materials_types/groups/create_group.html")
@@ -101,6 +107,7 @@ def edit_group(group_id):
 
         db.session.commit()
 
+        current_app.logger.info(f"Material group {group.name} edited by {current_user.login}")
         return redirect(url_for("materials_types.groups"))
 
     return render_template("materials_types/groups/edit_group.html", group=group)
@@ -113,9 +120,11 @@ def delete_group(group_id):
 
         db.session.delete(group)
         db.session.commit()
-    except exc.SQLAlchemyError:
-        flash("Невозможно удалить группу материалов, если от нее зависят материалы. Сначала удалите все материалы, зависящие от этой группы.", "danger")
 
+        current_app.logger.info(f"Material group {group.name} deleted by {current_user.login}")
+    except exc.SQLAlchemyError:
+        current_app.logger.warning(f"Error ocurred while deleting material group")
+        flash("Невозможно удалить группу материалов, если от нее зависят материалы. Сначала удалите все материалы, зависящие от этой группы.", "danger")
 
     return redirect(url_for("materials_types.groups"))
 
@@ -137,6 +146,7 @@ def create_class():
         db.session.add(_class)
         db.session.commit()
 
+        current_app.logger.info(f"Material class {_class.name} created by {current_user.login}")
         return redirect(url_for("materials_types.classes"))
 
     return render_template("materials_types/classes/create_class.html")
@@ -151,6 +161,7 @@ def edit_class(class_id):
 
         db.session.commit()
 
+        current_app.logger.info(f"Material class {_class.name} edited by {current_user.login}")
         return redirect(url_for("materials_types.classes"))
 
     return render_template("materials_types/classes/edit_class.html", _class=_class)
@@ -163,7 +174,10 @@ def delete_class(class_id):
 
         db.session.delete(_class)
         db.session.commit()
+
+        current_app.logger.info(f"Material class {_class.name} deleted by {current_user.login}")
     except exc.SQLAlchemyError:
+        current_app.logger.warning(f"Error ocurred while deleting material class")
         flash("Невозможно удалить класс материалла, если от него зависят материалы. Сначала удалите все материалы, зависящие от этого класса.", "danger")
     
 
@@ -187,6 +201,7 @@ def create_measure_unit():
         db.session.add(measure_unit)
         db.session.commit()
 
+        current_app.logger.info(f"Measure unit {measure_unit.name} created by {current_user.login}")
         return redirect(url_for("materials_types.measure_units"))
 
     return render_template("materials_types/measure_units/create_measure_unit.html")
@@ -200,6 +215,7 @@ def edit_measure_unit(measure_unit_id):
         measure_unit.name = request.form.get("measure_unit_name")
 
         db.session.commit()
+        current_app.logger.info(f"Measure unit {measure_unit.name} edited by {current_user.login}")
 
         return redirect(url_for("materials_types.measure_units"))
 
@@ -213,6 +229,10 @@ def delete_measure_unit(measure_unit_id):
 
         db.session.delete(measure_unit)
         db.session.commit()
+
+        current_app.logger.info(f"Measure unit {measure_unit.name} deleted by {current_user.login}")
     except exc.SQLAlchemyError:
+        current_app.logger.warning(f"Error ocurred while deleting measure unit")
         flash("Невозможно удалить меру измерений, если от него зависят материалы. Сначала удалите все материалы, зависящие от этого измерения.", "danger")
+    
     return redirect(url_for("materials_types.measure_units")) 

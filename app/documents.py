@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_required
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
+from flask_login import login_required, current_user
 from sqlalchemy import exc
 
 from app.models import db, Document, DocumentType
@@ -25,6 +25,7 @@ def create():
         db.session.add(document)
         db.session.commit()
 
+        current_app.logger.info(f"Document {document.name} created by {current_user.login}")
         return redirect(url_for("documents.index"))
 
     types = DocumentType.query.all()
@@ -42,6 +43,7 @@ def edit(document_id):
 
         db.session.commit()
 
+        current_app.logger.info(f"Document {document.name} edited by {current_user.login}")
         return redirect(url_for("documents.index"))
 
     return render_template("documents/edit.html", types=types, document=document)
@@ -54,7 +56,10 @@ def delete(document_id):
 
         db.session.delete(document)
         db.session.commit()
+
+        current_app.logger.info(f"Document {document.name} deleted by {current_user.login}")
     except exc.SQLAlchemyError:
+        current_app.logger.warning(f"Error ocurred while deleting document")
         flash("Невозможно удалить документ, если от него зависят заказы. Сначала удалите все заказы, зависящие от этого документа.", "danger")
 
     return redirect(url_for("documents.index"))
@@ -77,6 +82,7 @@ def create_type():
         db.session.add(type)
         db.session.commit()
 
+        current_app.logger.info(f"Document type {type.name} created by {current_user.login}")
         return redirect(url_for("documents.types"))
 
     return render_template("documents/types/create_type.html")
@@ -91,6 +97,7 @@ def edit_type(type_id):
 
         db.session.commit()
 
+        current_app.logger.info(f"Document type {type.name} edited by {current_user.login}")
         return redirect(url_for("documents.types"))
 
     return render_template("documents/types/edit_type.html", type=type)
@@ -103,8 +110,10 @@ def delete_type(type_id):
 
         db.session.delete(type)
         db.session.commit()
-
+        
+        current_app.logger.info(f"Document type {type.name} deleted by {current_user.login}")
     except exc.SQLAlchemyError:
+        current_app.logger.warning(f"Error ocurred while deleting document type")
         flash("Невозможно удалить тип документа, если от него зависят документы. Сначала удалите все документы, зависящий от этого типа.", "danger")
 
     return redirect(url_for("documents.types"))
