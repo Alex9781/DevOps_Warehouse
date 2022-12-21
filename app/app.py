@@ -1,9 +1,13 @@
 from flask import Flask, url_for, redirect
 from flask_login import login_required
 from flask_migrate import Migrate
+from prometheus_flask_exporter import PrometheusMetrics
+
+metrics = PrometheusMetrics.for_app_factory()
 
 def create_app(config_filename):
     app = Flask(__name__)
+    metrics.init_app(app)
     app.config.from_pyfile(config_filename)
 
     from app.models import db
