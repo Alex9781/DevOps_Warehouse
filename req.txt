@@ -35,3 +35,4 @@ tomlkit==0.11.5
 Werkzeug==2.2.2
 wrapt==1.14.1
 pytest==7.2.0
+prometheus-flask-exporter==0.21.0
