@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request
 from flask_login import login_required
 
 from app.models import MaterialType, Order, Shipper, Bank
-
+from app.app import metrics
 
 bp = Blueprint('calculations', __name__, url_prefix='/calculations')
 
@@ -15,6 +15,7 @@ def calculation_one(orders):
     return len(res)
 
 @bp.route("/", methods=['GET', 'POST'])
+@metrics.counter('first_counts', 'Number of invocations first calculation funcition')
 @login_required
 def index():
     materials = MaterialType.query.all()
@@ -29,6 +30,7 @@ def index():
     return render_template("calculations/index.html", materials=materials, result=result)
 
 @bp.route("/second", methods=['GET', 'POST'])
+@metrics.counter('second_counts', 'Number of invocations second calculation funcition')
 @login_required
 def second():
     materials = MaterialType.query.all()
@@ -46,6 +48,7 @@ def second():
     return render_template("calculations/second.html", materials=materials, shippers=result)
 
 @bp.route("/third", methods=['GET', 'POST'])
+@metrics.counter('third_counts', 'Number of invocations third calculation funcition')
 @login_required
 def third():
     banks = Bank.query.all()

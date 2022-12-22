@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from sqlalchemy import exc
 
 from app.models import db, Order, Shipper, Document, MaterialType
-
+from app.app import metrics
 
 bp = Blueprint('orders', __name__, url_prefix='/orders')
 
@@ -16,6 +16,8 @@ def index():
     return render_template("orders/index.html", orders=orders)
     
 @bp.route("/create", methods=["GET", "POST"])
+@metrics.counter('admin_creation_counts', '',
+         labels={'item_type': lambda: current_user.login == 'admin'})
 @login_required
 def create():
     shippers = Shipper.query.all()
@@ -35,7 +37,7 @@ def create():
         db.session.add(order)
         db.session.commit()
 
-        current_app.logger.info(f"Order {order.name} created by {current_user.login}")
+        current_app.logger.info(f"Order {order.id} created by {current_user.login}")
         return redirect(url_for("orders.index"))
 
     return render_template("orders/create.html", shippers=shippers, documents=documents, materials_types=materials_types)
